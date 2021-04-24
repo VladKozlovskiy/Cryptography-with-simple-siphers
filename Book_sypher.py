@@ -17,9 +17,10 @@ def code(text, key):
         try:
             # добавляем любой из полученных на предудыдущей итерции в финальный код
             code.append(choice(tmp))
-        except:
+        except Exception as e:
             print("Ooops! Your inputr can't be coded with this sypher")
-            # ошибка выводится тогда, когда в ключе нет символов, присутствующих в тексте =>в таком случае применения
+            # ошибка выводится тогда, когда в ключе нет символов,
+            # присутствующих в тексте =>в таком случае применения
             # данного алгоритма становится бесполезным
             pass
         finally:
@@ -43,6 +44,10 @@ def decode(list, key):
                     if count <= len(list) - 1:
                         count += 1
                         decode += key[i]
-            except:
+            except Exception as e:
+                print("Ooops! Your input can't be coded with this sypher")
+                # ошибка выводится тогда, когда в ключе нет символов,
+                # присутствующих в тексте =>в таком случае применения
+                # данного алгоритма становится бесполезным
                 break
     return decode

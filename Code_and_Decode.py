@@ -71,7 +71,8 @@ class vizhner_generator(sypher_generator):
         # Функция складывает номер в алфавите исходного ключа и символ соответсвующий ему символ ключа, тем самым
         # получается номер символа в закодированной строке symbol - исходный символ key - ключ шифрования
         # code_or_encode - определяет шифровать или дештфровать текст count - alphabet - алфавит языка
-        answer = alphabet[(a[code_or_decode](alphabet.find(symbol), alphabet.find(key[count % len(key)]))) % len(alphabet)]
+        answer = alphabet[(a[code_or_decode](alphabet.find(symbol), alphabet.find(key[count % len(key)]))) %
+                          len(alphabet)]
         return answer
 
 
