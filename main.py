@@ -10,7 +10,7 @@ d = {'Code': 1, 'Decode': 0}
 if len(sys.argv) == 6:
     # Вводим аргументы и запускаем программу из командой строки
     Path_to_file = sys.argv[1]
-    file = open(Path_to_file, "r")
+    file = open(Path_to_file, 'r')
     text = file.read()
     Language = sys.argv[2]
     Key = sys.argv[3]
@@ -35,7 +35,7 @@ elif len(sys.argv) == 5:
     file.close()
 elif len(sys.argv) == 4:
     Path_to_file = sys.argv[1]
-    file = open(Path_to_file, "r")
+    file = open(Path_to_file, 'r')
     text = file.read()
     Arg2 = sys.argv[2]
     Arg3 = sys.argv[3]
@@ -52,7 +52,7 @@ elif len(sys.argv) == 4:
             print(Book_sypher.decode(Arg2, Arg3))
 elif len(sys.argv) == 3:
     Path_to_file = sys.argv[1]
-    file = open(Path_to_file, "r")
+    file = open(Path_to_file, 'r')
     text = file.read()
     Language = sys.argv[2]
     print(frequency_analysis_method.frequency_analysis(text, Alphabets[Language]))

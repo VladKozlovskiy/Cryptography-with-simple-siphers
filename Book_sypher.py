@@ -18,6 +18,9 @@ def code(text, key):
             # добавляем любой из полученных на предудыдущей итерции в финальный код
             code.append(choice(tmp))
         except:
+            print("Ooops! Your inputr can't be coded with this sypher")
+            # ошибка выводится тогда, когда в ключе нет символов, присутствующих в тексте =>в таком случае применения
+            # данного алгоритма становится бесполезным
             pass
         finally:
             if count < len(text) - 1:

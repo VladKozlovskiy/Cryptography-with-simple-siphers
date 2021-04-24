@@ -50,6 +50,8 @@ def decode(name, rashirenie):
     image = cv2.imread(input_name)
     decode_binary_text = ""
     # достаем текст в бинарном виде
+    stop_flag = "stop_coding"
+    # добавляем пометку о том, что зашифрованные данные кончились
     for row in image:
         for pixel in row:
             for i in range(3):
@@ -60,6 +62,6 @@ def decode(name, rashirenie):
     # получаем ответ
     for byte in all_bytes:
         decoded_text += chr(int(byte, 2))
-        if decoded_text[-11:] == "stop_coding":
+        if decoded_text[-11:] == stop_flag:
             break
     return decoded_text[:-11]
