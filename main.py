@@ -1,4 +1,4 @@
-import sys
+import argparse
 import steganography
 import Code_and_Decode
 import frequency_analysis_method
@@ -7,53 +7,28 @@ from Languages_and_Alphabets import Alphabets
 
 d = {'Code': 1, 'Decode': 0}
 # Словарь который переводит текстовые команды пользователя на язык переменных
-if len(sys.argv) == 6:
-    # Вводим аргументы и запускаем программу из командой строки
-    Path_to_file = sys.argv[1]
-    file = open(Path_to_file, 'r')
-    text = file.read()
-    Language = sys.argv[2]
-    Key = sys.argv[3]
-    Code_or_Decode = int(d[sys.argv[4]])
-    Cypher_type = sys.argv[5]
-    output = {
-        'Vizhner': Code_and_Decode.vizhner_generator.generate_sypher(text, Key, Code_or_Decode,
-                                                                     Alphabets[Language]),
-        'Vernam': Code_and_Decode.vernam_generator.generate_sypher(text, Key, Code_or_Decode,
-                                                                   Alphabets[Language])
-    }
-    print(output[Cypher_type])
-    file.close()
-elif len(sys.argv) == 5:
-    Path_to_file = sys.argv[1]
-    file = open(Path_to_file, "r")
-    text = file.read()
-    Language = sys.argv[2]
-    Key = int(sys.argv[3])
-    Code_or_Decode = int(d[sys.argv[4]])
-    print(Code_and_Decode.caesar_generator.generate_sypher(text, Key, Code_or_Decode, Alphabets[Language]))
-    file.close()
-elif len(sys.argv) == 4:
-    Path_to_file = sys.argv[1]
-    file = open(Path_to_file, 'r')
-    text = file.read()
-    Arg2 = sys.argv[2]
-    Arg3 = sys.argv[3]
-    Code_or_decode = sys.argv[4]
-    if Arg2 != 'Book sypher':
-        if Code_or_decode == 'Code':
-            steganography.code(Arg2, Arg3, text)
-        elif Code_or_decode == 'Decode':
-            print(steganography.decode(Arg2, Arg3))
-    elif Arg2 == 'Book sypher':
-        if Code_or_decode == 'Code':
-            print(Book_sypher.code(text, Arg3))
-        elif Code_or_decode == 'Decode':
-            print(Book_sypher.decode(Arg2, Arg3))
-elif len(sys.argv) == 3:
-    Path_to_file = sys.argv[1]
-    file = open(Path_to_file, 'r')
-    text = file.read()
-    Language = sys.argv[2]
-    print(frequency_analysis_method.frequency_analysis(text, Alphabets[Language]))
-    file.close()
+parser = argparse.ArgumentParser(description="Run the encryptor program")
+parser.add_argument('Cypher_type', required=True, help='Function of encryptor you want to use')
+parser.add_argument('path', required=False, help='Path to file with text')
+parser.add_argument('Code_or_decode', required=False, help='Do you want to code or to decode smth')
+parser.add_argument('language', required=False, help='Language your data is in')
+parser.add_argument('key', required=False, help='Key for your coding')
+parser.add_argument('filename', required=False, help='Name of file with image')
+parser.add_argument('extension', required=False, help='extension of image')
+parser.add_argument('list', type=list, required=False, help='if you want to encrypt smth coded with book sypher')
+args = parser.parse_args()
+file = open(args.path, 'r')
+text = file.read()
+output = {
+    'Vizhner': Code_and_Decode.vizhner_generator.generate_sypher(text, args.key, d[args.Code_or_decode],
+                                                                 Alphabets[args.language]),
+    'Vernam': Code_and_Decode.vernam_generator.generate_sypher(text, args.key, d[args.Code_or_decode],
+                                                               Alphabets[args.language]),
+    'Caesar': Code_and_Decode.caesar_generator.generate_sypher(text, int(args.key), d[args.Code_or_decode],
+                                                               Alphabets[args.language]),
+    'Book sypher': Book_sypher.create_book_sypher(d[args.Code_or_decode], text, args.list, args.key),
+    'Steganography': steganography.create_steganography(d[args.Code_or_decode], args.filename, args.extension, text),
+    'Frequency analysis method': frequency_analysis_method.frequency_analysis(text, Alphabets[args.language])
+}
+print(output[args.Cypher_type])
+file.close()

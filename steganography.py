@@ -15,6 +15,7 @@ def code(name, extension, text):
     # extension - расширение
     # text - текст
     # output_name - имя изображения куда записать результат
+    sign_of_correct_work = 'Your text is successfully coded'
     input_name = name + '.' + extension
     # считываем изображерие
     image = cv2.imread(input_name)
@@ -39,13 +40,14 @@ def code(name, extension, text):
                     break
     # записываем результат в нужное изображение
     cv2.imwrite(input_name, image)
+    return sign_of_correct_work
 
 
-def decode(name, rashirenie):
+def decode(name, extension):
     # Функция которая достает из указанного изобрадения закодированный текст
     # name-название изображения
     # extension-расширение
-    input_name = name + '.' + rashirenie
+    input_name = name + '.' + extension
     # считываем изображение
     image = cv2.imread(input_name)
     decode_binary_text = ""
@@ -65,3 +67,10 @@ def decode(name, rashirenie):
         if decoded_text[-11:] == stop_flag:
             break
     return decoded_text[:-11]
+
+
+def create_steganography(*args):
+    if args[0]:
+        return code(args[1], args[2], args[3])
+    else:
+        return decode(args[1], args[2])
